@@ -2,11 +2,9 @@
 //
 'use strict';
 
-
-
 var express = require('express');
+var parser = require('body-parser');
 var router = require('./api');
-
 
 // creating instance to set up any middleware needed
 var app = express();
@@ -16,6 +14,7 @@ require('./seed');
 
 //Telling express' static server to serve static files from 'public' folder
 app.use('/', express.static('public'));
+app.use(parser.json());
 
 
 app.use('/api',router);
