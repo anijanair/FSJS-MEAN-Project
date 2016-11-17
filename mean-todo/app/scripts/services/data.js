@@ -1,8 +1,11 @@
 'use strict';
+var angular = require('angular');
 
 angular.module('todoListApp')
+
 .service('dataService', function($http) {
   this.getTodos = function(cb) {
+    // redirecting to fetch API's mock data
     $http.get('/api/todos').then(cb);
   };
 
