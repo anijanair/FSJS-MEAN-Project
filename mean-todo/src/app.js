@@ -12,6 +12,7 @@ var router = require('./api');
 var app = express();
 
 require('./database');
+require('./seed');
 
 //Telling express' static server to serve static files from 'public' folder
 app.use('/', express.static('public'));
