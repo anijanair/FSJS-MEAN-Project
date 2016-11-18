@@ -2,7 +2,7 @@
 
 'use strict';
 
-var Todo = require('./models/todo.js');
+var Todo = require('./models/todo');
 
 var todos = [
   'return the call',

@@ -44,7 +44,7 @@ router.put('/todos/:id', function (req, res) {
       return res.status(500).json({err: err.message});
     }
     res.json({'todo': todo, message: 'Todo updated.'});
-  })
+  });
 });
 
 // Adding DELETE route to delete entries

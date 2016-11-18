@@ -1,8 +1,8 @@
 'use strict';
+
 var angular = require('angular');
 
 angular.module('todoListApp')
-
 .service('dataService', function($http, $q) {
   this.getTodos = function(cb) {
     // redirecting to fetch API's mock data
@@ -19,7 +19,7 @@ angular.module('todoListApp')
     todos.forEach(function (todo) {
       var request;
       if (!todo._id) {
-        request= $http.post('/api/todos', todo)
+        request= $http.post('/api/todos', todo);
         //to update an existing data
       } else {
         request= $http.put('/api/todos' + todo._id, todo).then(function (result) {
@@ -33,3 +33,4 @@ angular.module('todoListApp')
       console.log("Saved "+todos.length+ " todos!" );
     });
   };
+});
