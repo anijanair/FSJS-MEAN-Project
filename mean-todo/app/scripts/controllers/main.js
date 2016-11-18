@@ -14,4 +14,4 @@ angular.module('todoListApp')
                       completed: false});
   };
 
-})
+});
