@@ -23,8 +23,8 @@ router.get('/todos', function (req, res) {
 });
 
 // Adding POST route to create new entries
-router.post('/api/todos', function (req, res) {
-  var todos = req.body;
+router.post('/todos', function (req, res) {
+  var todo = req.body;
   Todo.create(todo, function (err, todo) {
     if (err) {
       return res.status(500).json({err: err.message});
@@ -35,7 +35,7 @@ router.post('/api/todos', function (req, res) {
 });
 
 // Adding PUT route to update existing entries
-router.put('/api/todos/:id', function (req, res) {
+router.put('/todos/:id', function (req, res) {
   var id = req.params.id;
   var todo = req.body;
   if (todo && todo._id !== id) {
