@@ -39,7 +39,7 @@ router.put('/todos/:id', function (req, res) {
   var id = req.params.id;
   var todo = req.body;
   if (todo && todo._id !== id) {
-    return res.status(500).json({err:"Ids don't match."})
+    return res.status(500).json({err:"Ids don't match."});
   }
   Todo.findByIdAndUpdate(id, todo, {new: true}, function (err, todo) {
     if (err) {
@@ -50,4 +50,18 @@ router.put('/todos/:id', function (req, res) {
 });
 
 // Adding DELETE route to delete entries
+router.delete('/todos/:id', function (req, res) {
+    var id = req.params.id;
+    Todo.findByIdAndRemove(id, function (err, result) {
+        if (err) {
+          return res.status(500).json({ message: err.message });
+
+        } else {
+          res.json({ message: 'Deleted Todo' });
+
+        };
+    });
+});
+
+
 module.exports = router;

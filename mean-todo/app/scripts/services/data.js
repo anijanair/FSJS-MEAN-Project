@@ -10,7 +10,13 @@ angular.module('todoListApp')
   };
 
   this.deleteTodo = function(todo) {
-    console.log("I deleted the " + todo.name + " todo!");
+    if (!todo._id) {
+      return $q.resolve();
+    }
+    return $http.delete('/api/todos' + todo._id).then(function () {
+      console.log("I deleted the " + todo.name + " todo!");
+    });
+
   };
 
   this.saveTodos = function(todos) {
@@ -18,13 +24,13 @@ angular.module('todoListApp')
     var queue = [];
     todos.forEach(function (todo) {
       var request;
-      if (!todo._id) {
-        request= $http.post('/api/todos', todo);
+        if (!todo._id) {
+          request= $http.post('/api/todos', todo)
         //to update an existing data
-      } else {
-        request= $http.put('/api/todos' + todo._id, todo).then(function (result) {
-          todo = result.data.todo;
-          return todo;
+        } else {
+          request= $http.put('/api/todos' + todo._id, todo).then(function (result) {
+            todo = result.data.todo;
+            return todo;
         });
       };
       queue.push(request);

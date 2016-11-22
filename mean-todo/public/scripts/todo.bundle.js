@@ -35,7 +35,7 @@ webpackJsonp([0],[
 	                      completed: false});
 	  };
 
-	})
+	});
 
 
 /***/ },
@@ -47,9 +47,13 @@ webpackJsonp([0],[
 
 	angular.module('todoListApp')
 	.controller('todoCtrl', function($scope, dataService) {
+
 	  $scope.deleteTodo = function(todo, index) {
-	    $scope.todos.splice(index, 1);
-	    dataService.deleteTodo(todo);
+	    dataService.deleteTodo(todo).then (function () {
+	      $scope.todos.splice(index, 1);
+	    });
+
+
 	  };
 
 	  $scope.saveTodos = function() {
@@ -57,15 +61,17 @@ webpackJsonp([0],[
 	      if(todo.edited) {
 	        return todo;
 	      };
-	    });
-	    dataService.saveTodos(filteredTodos).finally($scope.resetTodoState());
+	    })
+	    dataService.saveTodos(filteredTodos)
+	    .finally($scope.resetTodoState());
 	  };
+
 	  $scope.resetTodoState = function(){
 	    $scope.todos.forEach(function (todo) {
 	      todo.edited = false;
 	    });
 	  };
-	});
+	})
 
 
 /***/ },
@@ -82,7 +88,7 @@ webpackJsonp([0],[
 	    replace: true,
 	    controller: 'todoCtrl'
 	  }
-	});
+	})
 
 
 /***/ },
@@ -101,7 +107,13 @@ webpackJsonp([0],[
 	  };
 
 	  this.deleteTodo = function(todo) {
-	    console.log("I deleted the " + todo.name + " todo!");
+	    if (!todo._id) {
+	      return $q.resolve();
+	    }
+	    return $http.delete('/api/todos' + todo._id).then(function () {
+	      console.log("I deleted the " + todo.name + " todo!");
+	    });
+
 	  };
 
 	  this.saveTodos = function(todos) {
@@ -109,13 +121,13 @@ webpackJsonp([0],[
 	    var queue = [];
 	    todos.forEach(function (todo) {
 	      var request;
-	      if (!todo._id) {
-	        request= $http.post('/api/todos', todo);
+	        if (!todo._id) {
+	          request= $http.post('/api/todos', todo)
 	        //to update an existing data
-	      } else {
-	        request= $http.put('/api/todos' + todo._id, todo).then(function (result) {
-	          todo = result.data.todo;
-	          return todo;
+	        } else {
+	          request= $http.put('/api/todos' + todo._id, todo).then(function (result) {
+	            todo = result.data.todo;
+	            return todo;
 	        });
 	      };
 	      queue.push(request);
@@ -124,7 +136,7 @@ webpackJsonp([0],[
 	      console.log("Saved "+todos.length+ " todos!" );
 	    });
 	  };
-	});
+	})
 
 
 /***/ }
