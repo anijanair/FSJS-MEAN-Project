@@ -16,3 +16,6 @@
   npm install mongoose
   
   npm install body-parser
+  
+  Run mongod in the command line, and in a new command line, run 'node src/app.js'.
+  
